@@ -28,4 +28,8 @@ class Account
   def process_transaction(transaction_type, value)
     @transactions[transaction_type].push([formatted_date, value, @balance])
   end
+
+  def print_bank_statement
+     STATEMENT_HEADER
+  end
 end

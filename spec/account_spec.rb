@@ -72,4 +72,10 @@ describe Account do
       expect(account.transactions[:withdrawals]).to eq [['01/09/2008', 1, -1]]
     end
   end
+
+  describe 'print_bank_statement' do
+    it 'prints out the header when there are no transactions' do
+    expect(account.print_bank_statement).to eq 'date || credit || debit || balance'
+    end
+  end
 end
