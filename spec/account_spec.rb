@@ -6,7 +6,7 @@ describe Account do
   let(:account) { Account.new }
 
   it 'has a statement header constant' do
-    expect(Account::STATEMENT_HEADER).to eq 'date || credit || debit || balance'
+    expect(Account::STATEMENT_HEADER).to eq "date || credit || debit || balance\n"
   end
 
   it 'initializes with a balance of 0' do
@@ -77,7 +77,7 @@ describe Account do
 
   describe 'print_bank_statement' do
     it 'prints out the header when there are no transactions' do
-    expect(account.print_bank_statement).to eq 'date || credit || debit || balance'
+    expect(account.print_bank_statement).to eq "date || credit || debit || balance\n"
     end
 
     it 'prints out the header with a single transaction' do

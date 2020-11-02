@@ -4,7 +4,7 @@
 class Account
   attr_reader :balance, :transactions
 
-  STATEMENT_HEADER = 'date || credit || debit || balance'
+  STATEMENT_HEADER = "date || credit || debit || balance\n"
 
   def initialize
     @balance = 0
@@ -34,6 +34,6 @@ class Account
   def print_bank_statement
     deposits = @transactions[:deposits].each {|deposit| deposit.map {|entry| entry.to_s}}
     deposits.each {|deposit| deposit[1] = "#{deposit[1]} ||"}
-    STATEMENT_HEADER + "\n" + deposits.join(' || ')
+    STATEMENT_HEADER  + deposits.join(' || ')
   end
 end
