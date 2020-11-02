@@ -24,7 +24,7 @@ describe Account do
   end
 
   describe 'get_formatted_date' do
-    it 'returns the data in the correct format' do
+    it 'returns the date in the correct format' do
       time = Time.local(2008, 9, 1, 10, 5, 0)
       Timecop.travel(time)
       expect(account.get_formatted_date).to eq "01/09/2008"
