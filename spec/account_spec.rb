@@ -63,7 +63,7 @@ describe Account do
       time = Time.local(2008, 9, 1, 10, 5, 0)
       Timecop.travel(time)
       account.deposit(500)
-      expect(account.transactions[:deposits]).to eq [['01/09/2008', 500, 500]]
+      expect(account.transactions[:deposits]).to eq [['01/09/2008', 500, nil, 500]]
     end
 
     it 'adds a withdrawal to the transactions hash' do
@@ -71,7 +71,7 @@ describe Account do
       Timecop.travel(time)
       account.withdraw(1)
       account.withdraw(5)
-      expect(account.transactions[:withdrawals]).to eq [['01/09/2008', 1, -1], ['01/09/2008', 5, -6]]
+      expect(account.transactions[:withdrawals]).to eq [['01/09/2008', nil, 1, -1], ['01/09/2008', nil, 5, -6]]
     end
   end
 
@@ -102,7 +102,7 @@ describe Account do
       time = Time.local(2001, 9, 1, 10, 5, 0)
       Timecop.travel(time)
       account.deposit(5)
-      expect(account.arrange_transaction_by_date).to eq ([["01/09/2001", 5, 10], ["01/09/2008", 10, 10], ["01/09/2009", 5, 5]])
+      expect(account.arrange_transaction_by_date).to eq ([["01/09/2001", 5, nil, 10], ["01/09/2008", 10, nil, 10], ["01/09/2009", nil, 5, 5]])
     end
   end
 
