@@ -92,8 +92,17 @@ describe Account do
   end
 
   describe '#arrange_transaction_by_date' do
-    it 'returns transactions chronologically from bottom to top' do
-
+    it 'returns transactions newest first' do
+      time = Time.local(2008, 9, 1, 10, 5, 0)
+      Timecop.travel(time)
+      account.deposit(10)
+      time = Time.local(2009, 9, 1, 10, 5, 0)
+      Timecop.travel(time)
+      account.withdraw(5)
+      time = Time.local(2001, 9, 1, 10, 5, 0)
+      Timecop.travel(time)
+      account.deposit(5)
+      expect(account.arrange_transaction_by_date).to eq ([["01/09/2001", 5, 10], ["01/09/2008", 10, 10], ["01/09/2009", 5, 5]])
     end
   end
 
