@@ -28,11 +28,15 @@ class Account
   end
 
   def process_transaction(transaction_type, value)
-    @transactions[transaction_type].push([formatted_date, value, @balance])
+    if transaction_type == :withdrawals 
+      @transactions[transaction_type].push([formatted_date, nil, value, @balance])
+    elsif transaction_type == :deposits
+      @transactions[transaction_type].push([formatted_date, value, nil, @balance])
+    end 
   end
 
   def format_transaction(transaction, deposit_type)
-  deposit_type === "deposits" ? "#{transaction[0]} || #{transaction[1]} || || #{transaction[2]}\n" : "#{transaction[0]} || || #{transaction[1]} || #{transaction[2]}\n"
+  deposit_type === "deposits" ? "#{transaction[0]} || #{transaction[1]} || || #{transaction[3]}\n" : "#{transaction[0]} || || #{transaction[2]} || #{transaction[3]}\n"
   end
 
   def arrange_transaction_by_date
