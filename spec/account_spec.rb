@@ -1,7 +1,9 @@
+require 'account'
 describe Account do
   let(:account){ Account.new }
-  it "prints the table header when no deposit has been made" do
-    expect(account.print_statement).to eq "date || credit || debit || balance"
+
+  it "has a statement header constant" do
+    expect(Account::STATEMENT_HEADER).to eq "date || credit || debit || balance"
   end
 
 
