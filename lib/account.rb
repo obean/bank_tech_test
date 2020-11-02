@@ -40,8 +40,9 @@ class Account
   end
 
   def arrange_transaction_by_date
-    all_transactions = @transactions[:withdrawals] + @transactions[:deposits]
-    all_transactions.sort { |a,b| Date.parse(a[0]) <=> Date.parse(b[0])}
+    @transactions.values
+                 .flatten(1)
+                 .sort { |a,b| Date.parse(a[0]) <=> Date.parse(b[0])}
   end
 
   def print_bank_statement
