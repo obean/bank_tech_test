@@ -13,4 +13,8 @@ class Account
   def deposit(deposit_amount)
     @balance += deposit_amount
   end
+
+  def get_formatted_date
+    Time.now.strftime('%d/%m/%Y')
+  end
 end
