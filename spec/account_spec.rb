@@ -11,4 +11,10 @@ describe Account do
   it 'initializes with a balance of 0' do
     expect(account.balance).to eq 0
   end
+
+  describe '#deposit' do  
+    it "takes one parameter" do
+      expect(account).to respond_to(:deposit).with(1).arguments
+    end
+  end
 end
