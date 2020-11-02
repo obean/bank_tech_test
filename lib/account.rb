@@ -42,7 +42,7 @@ class Account
   def arrange_transaction_by_date
     @transactions.values
                  .flatten(1)
-                 .sort { |a,b| Date.parse(a[0]) <=> Date.parse(b[0])}
+                 .sort { |a,b| Date.parse(b[0]) <=> Date.parse(a[0])}
   end
 
   def print_bank_statement

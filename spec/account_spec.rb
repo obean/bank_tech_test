@@ -102,7 +102,7 @@ describe Account do
       time = Time.local(2001, 9, 1, 10, 5, 0)
       Timecop.travel(time)
       account.deposit(5)
-      expect(account.arrange_transaction_by_date).to eq ([["01/09/2001", 5, nil, 10], ["01/09/2008", 10, nil, 10], ["01/09/2009", nil, 5, 5]])
+      expect(account.arrange_transaction_by_date).to eq ([["01/09/2009", nil, 5, 5], ["01/09/2008", 10, nil, 10], ["01/09/2001", 5, nil, 10]])
     end
   end
 
@@ -125,5 +125,21 @@ describe Account do
       account.deposit(1000)
       expect(account.print_bank_statement).to eq "date || credit || debit || balance\n01/09/2008 || 500 || || 500\n01/09/2008 || 1000 || || 1500\n"
     end
-   end
+
+    it 'prints our multiple transactions of different types' do
+      time = Time.local(2012, 1, 10, 10, 5, 0)
+      Timecop.travel(time)
+      account.deposit(1000)
+      time = Time.local(2012, 1, 13, 10, 5, 0)
+      Timecop.travel(time)
+      account.deposit(2000)
+      time = Time.local(2012, 1, 14, 10, 5, 0)
+      Timecop.travel(time)
+      account.withdraw(500)
+      expect(account.balance).to eq 2500
+      expect(account.print_bank_statement).to eq "date || credit || debit || balance\n14/01/2012 || || 500.00 || 2500.00\n13/01/2012 || 2000.00 || || 3000.00\n10/01/2012 || 1000.00 || || 1000.00"
+    end
+  end
 end
+
+
