@@ -29,6 +29,8 @@ class Account
     @transactions[transaction_type].push([formatted_date, value, @balance])
   end
 
+  
+
   def print_bank_statement
      STATEMENT_HEADER
   end
