@@ -29,6 +29,9 @@ class Account
     @transactions[transaction_type].push([formatted_date, value, @balance])
   end
 
+  def format_transaction(transaction, deposit_type)
+  deposit_type == "deposit" ? "#{transaction[0]} || #{transaction[1]} || || #{transaction[2]}\n" : "#{transaction[0]} || || #{transaction[1]} || #{transaction[2]}\n"
+  end
   
 
   def print_bank_statement

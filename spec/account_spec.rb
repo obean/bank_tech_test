@@ -75,6 +75,15 @@ describe Account do
     end
   end
 
+  describe '#format_transaction' do
+    it 'returns a formatted deposit from the transactions hash' do
+      time = Time.local(2008, 9, 1, 10, 5, 0)
+      Timecop.travel(time)
+      account.deposit(1)
+      expect(account.format_transaction(account.transactions[:deposits][0], "deposit")).to eq "01/09/2008 || 1 || || 1\n"
+    end
+  end
+
   describe 'print_bank_statement' do
     it 'prints out the header when there are no transactions' do
     expect(account.print_bank_statement).to eq "date || credit || debit || balance\n"
@@ -94,5 +103,5 @@ describe Account do
   #     account.deposit(1000)
   #     expect(account.print_bank_statement).to eq "date || credit || debit || balance\n01/09/2008 || 500 || || 500\n01/09/2008 || 1000 || || 1500"
   #   end
-  # end
+   end
 end
