@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'timecop'
 require 'account'
 describe Account do
@@ -23,11 +24,23 @@ describe Account do
     end
   end
 
-  describe 'get_formatted_date' do
+  describe '#withdraw' do
+    it 'takes one parameter' do
+      expect(account).to respond_to(:withdraw).with(1).arguments
+    end
+
+    it 'decreases the balance by the withdrawal amount' do
+      account.deposit(500)
+      account.withdraw(499)
+      expect(account.balance).to eq 1
+    end
+  end
+
+  describe 'formatted_date' do
     it 'returns the date in the correct format' do
       time = Time.local(2008, 9, 1, 10, 5, 0)
       Timecop.travel(time)
-      expect(account.get_formatted_date).to eq "01/09/2008"
+      expect(account.get_formatted_date).to eq '01/09/2008'
     end
   end
 end

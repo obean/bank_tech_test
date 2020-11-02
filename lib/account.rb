@@ -14,7 +14,11 @@ class Account
     @balance += deposit_amount
   end
 
-  def get_formatted_date
+  def withdraw(withdrawal_amount)
+    @balance -= withdrawal_amount
+  end
+
+  def formatted_date
     Time.now.strftime('%d/%m/%Y')
   end
 end
