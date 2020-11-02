@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require './spec/spec_methods.rb'
 require 'timecop'
 require 'account'
 describe Account do
@@ -52,23 +52,22 @@ describe Account do
 
   describe 'formatted_date' do
     it 'returns the date in the correct format' do
-      time = Time.local(2008, 9, 1, 10, 5, 0)
-      Timecop.travel(time)
+      set_time(2008, 9, 1, 10, 5, 0)
+      
       expect(account.formatted_date).to eq '01/09/2008'
     end
   end
 
   describe 'process_transaction' do
     it 'adds a deposit to the transactions hash' do
-      time = Time.local(2008, 9, 1, 10, 5, 0)
-      Timecop.travel(time)
+     set_time(2008, 9, 1, 10, 5, 0)
+      
       account.deposit(500)
       expect(account.transactions[:deposits]).to eq [['01/09/2008', '500.00', nil, '500.00']]
     end
 
     it 'adds a withdrawal to the transactions hash' do
-      time = Time.local(2008, 9, 1, 10, 5, 0)
-      Timecop.travel(time)
+      set_time(2008, 9, 1, 10, 5, 0)
       account.withdraw(1)
       account.withdraw(5)
       expect(account.transactions[:withdrawals]).to eq [['01/09/2008', nil, '1.00', '-1.00'], ['01/09/2008', nil, '5.00', '-6.00']]
@@ -77,15 +76,14 @@ describe Account do
 
   describe '#format_transaction' do
     it 'returns a formatted deposit from the transactions hash' do
-      time = Time.local(2008, 9, 1, 10, 5, 0)
-      Timecop.travel(time)
+      set_time(2008, 9, 1, 10, 5, 0)
       account.deposit(1)
       expect(account.format_transaction(account.transactions[:deposits][0])).to eq "01/09/2008 || 1.00 || || 1.00\n"
     end
 
     it 'returns a formatted withdrawal from the transactions hash' do
-      time = Time.local(2008, 9, 1, 10, 5, 0)
-      Timecop.travel(time)
+      set_time(2008, 9, 1, 10, 5, 0)
+
       account.withdraw(1)
       expect(account.format_transaction(account.transactions[:withdrawals][0])).to eq "01/09/2008 || || 1.00 || -1.00\n"
     end
@@ -93,14 +91,11 @@ describe Account do
 
   describe '#arrange_transaction_by_date' do
     it 'returns transactions newest first' do
-      time = Time.local(2008, 9, 1, 10, 5, 0)
-      Timecop.travel(time)
+      set_time(2008, 9, 1, 10, 5, 0)
       account.deposit(10)
-      time = Time.local(2009, 9, 1, 10, 5, 0)
-      Timecop.travel(time)
+      set_time(2009, 9, 1, 10, 5, 0)
       account.withdraw(5)
-      time = Time.local(2001, 9, 1, 10, 5, 0)
-      Timecop.travel(time)
+      set_time(2001, 9, 1, 10, 5, 0)
       account.deposit(5)
       expect(account.arrange_transaction_by_date).to eq([['01/09/2009', nil, '5.00', '5.00'], ['01/09/2008', '10.00', nil, '10.00'], ['01/09/2001', '5.00', nil, '10.00']])
     end
@@ -112,43 +107,35 @@ describe Account do
     end
 
     it 'prints out the header with a single transaction' do
-      time = Time.local(2008, 9, 1, 10, 5, 0)
-      Timecop.travel(time)
+      set_time(2008, 9, 1, 10, 5, 0)
       account.deposit(500)
       expect(account.print_bank_statement).to eq "date || credit || debit || balance\n01/09/2008 || 500.00 || || 500.00"
     end
 
     it 'prints out multiple transactions of the same type' do
-      time = Time.local(2008, 9, 1, 10, 5, 0)
-      Timecop.travel(time)
+      set_time(2008, 9, 1, 10, 5, 0)
       account.deposit(500)
       account.deposit(1000)
       expect(account.print_bank_statement).to eq "date || credit || debit || balance\n01/09/2008 || 500.00 || || 500.00\n01/09/2008 || 1000.00 || || 1500.00"
     end
 
     it 'prints our multiple transactions of different types' do
-      time = Time.local(2012, 1, 10, 10, 5, 0)
-      Timecop.travel(time)
+      set_time(2012, 1, 10, 10, 5, 0)
       account.deposit(1000)
-      time = Time.local(2012, 1, 13, 10, 5, 0)
-      Timecop.travel(time)
+      set_time(2012, 1, 13, 10, 5, 0)
       account.deposit(2000)
-      time = Time.local(2012, 1, 14, 10, 5, 0)
-      Timecop.travel(time)
+      set_time(2012, 1, 14, 10, 5, 0)
       account.withdraw(500)
       expect(account.balance).to eq 2500
       expect(account.print_bank_statement).to eq "date || credit || debit || balance\n14/01/2012 || || 500.00 || 2500.00\n13/01/2012 || 2000.00 || || 3000.00\n10/01/2012 || 1000.00 || || 1000.00"
     end
 
     it 'works with decimals' do
-      time = Time.local(2012, 1, 10, 10, 5, 0)
-      Timecop.travel(time)
+      set_time(2012, 1, 10, 10, 5, 0)
       account.deposit(1000.5)
-      time = Time.local(2012, 1, 13, 10, 5, 0)
-      Timecop.travel(time)
+      set_time(2012, 1, 13, 10, 5, 0)
       account.deposit(2000)
-      time = Time.local(2012, 1, 14, 10, 5, 0)
-      Timecop.travel(time)
+      set_time(2012, 1, 14, 10, 5, 0)
       account.withdraw(500.41)
       expect(account.print_bank_statement).to eq "date || credit || debit || balance\n14/01/2012 || || 500.41 || 2500.09\n13/01/2012 || 2000.00 || || 3000.50\n10/01/2012 || 1000.50 || || 1000.50"
     end
