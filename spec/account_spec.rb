@@ -26,7 +26,7 @@ describe Account do
       expect(account.transactions[:deposits]).to eq []
     end
   end
-  # TODO include decimal points.
+  # TODO: include decimal points.
   describe '#deposit' do
     it 'takes one parameter' do
       expect(account).to respond_to(:deposit).with(1).arguments
@@ -63,7 +63,7 @@ describe Account do
       time = Time.local(2008, 9, 1, 10, 5, 0)
       Timecop.travel(time)
       account.deposit(500)
-      expect(account.transactions[:deposits]).to eq [['01/09/2008', "500.00", nil, "500.00"]]
+      expect(account.transactions[:deposits]).to eq [['01/09/2008', '500.00', nil, '500.00']]
     end
 
     it 'adds a withdrawal to the transactions hash' do
@@ -102,13 +102,13 @@ describe Account do
       time = Time.local(2001, 9, 1, 10, 5, 0)
       Timecop.travel(time)
       account.deposit(5)
-      expect(account.arrange_transaction_by_date).to eq ([["01/09/2009", nil, '5.00', '5.00'], ["01/09/2008", '10.00', nil, '10.00'], ["01/09/2001", '5.00', nil, '10.00']])
+      expect(account.arrange_transaction_by_date).to eq([['01/09/2009', nil, '5.00', '5.00'], ['01/09/2008', '10.00', nil, '10.00'], ['01/09/2001', '5.00', nil, '10.00']])
     end
   end
 
   describe 'print_bank_statement' do
     it 'prints out the header when there are no transactions' do
-    expect(account.print_bank_statement).to eq "date || credit || debit || balance\n"
+      expect(account.print_bank_statement).to eq "date || credit || debit || balance\n"
     end
 
     it 'prints out the header with a single transaction' do
@@ -154,5 +154,3 @@ describe Account do
     end
   end
 end
-
-
