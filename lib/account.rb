@@ -29,9 +29,9 @@ class Account
 
   def process_transaction(transaction_type, value)
     if transaction_type == :withdrawals 
-      @transactions[transaction_type].push([formatted_date, nil, value, @balance])
+      @transactions[transaction_type].push([formatted_date, nil, '%.2f' % value,'%.2f' % @balance])
     elsif transaction_type == :deposits
-      @transactions[transaction_type].push([formatted_date, value, nil, @balance])
+      @transactions[transaction_type].push([formatted_date, '%.2f' % value, nil,'%.2f' % @balance])
     end 
   end
 
