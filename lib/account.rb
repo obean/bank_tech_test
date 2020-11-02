@@ -2,12 +2,13 @@
 
 # account class to complete bank tech test
 class Account
-  attr_reader :balance
+  attr_reader :balance, :transactions
 
   STATEMENT_HEADER = 'date || credit || debit || balance'
 
   def initialize
     @balance = 0
+    @transactions = {:withdrawals  => [], :deposits => []}
   end
 
   def deposit(deposit_amount)

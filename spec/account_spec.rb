@@ -13,6 +13,19 @@ describe Account do
     expect(account.balance).to eq 0
   end
 
+  it 'initializes with an empty array to track withdrawals and deposits' do
+    expect(account.transactions).to be_an_instance_of(Hash)
+  end
+
+  describe '#transactions' do
+    it 'has a withdrawals key containing an array' do
+      expect(account.transactions[:withdrawals]).to eq []
+    end
+
+    it 'has a deposits key containing an array' do
+      expect(account.transactions[:deposits]).to eq []
+    end
+  end
   describe '#deposit' do
     it 'takes one parameter' do
       expect(account).to respond_to(:deposit).with(1).arguments
