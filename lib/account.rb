@@ -13,6 +13,7 @@ class Account
 
   def deposit(deposit_amount)
     @balance += deposit_amount
+    process_transaction(:deposits, deposit_amount)
   end
 
   def withdraw(withdrawal_amount)
@@ -22,4 +23,9 @@ class Account
   def formatted_date
     Time.now.strftime('%d/%m/%Y')
   end
+
+  def process_transaction(transaction_type, value)
+    @transactions[transaction_type].push([formatted_date, value, @balance])
+  end
+
 end

@@ -35,6 +35,7 @@ describe Account do
       account.deposit(500)
       expect(account.balance).to eq 500
     end
+
   end
 
   describe '#withdraw' do
@@ -47,6 +48,8 @@ describe Account do
       account.withdraw(499)
       expect(account.balance).to eq 1
     end
+
+
   end
 
   describe 'formatted_date' do
@@ -54,6 +57,15 @@ describe Account do
       time = Time.local(2008, 9, 1, 10, 5, 0)
       Timecop.travel(time)
       expect(account.formatted_date).to eq '01/09/2008'
+    end
+  end
+
+  describe 'process_transaction' do
+    it 'adds a deposit to the transactions hash' do
+      time = Time.local(2008, 9, 1, 10, 5, 0)
+      Timecop.travel(time)
+      account.deposit(500)
+      expect(account.transactions[:deposits]).to eq [['01/09/2008', 500, 500]]
     end
   end
 end
