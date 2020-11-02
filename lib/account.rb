@@ -8,7 +8,7 @@ class Account
 
   def initialize
     @balance = 0
-    @transactions = {:withdrawals  => [], :deposits => []}
+    @transactions = { withdrawals: [], deposits: [] }
   end
 
   def deposit(deposit_amount)
@@ -18,6 +18,7 @@ class Account
 
   def withdraw(withdrawal_amount)
     @balance -= withdrawal_amount
+    process_transaction(:withdrawals, withdrawal_amount)
   end
 
   def formatted_date
@@ -27,5 +28,4 @@ class Account
   def process_transaction(transaction_type, value)
     @transactions[transaction_type].push([formatted_date, value, @balance])
   end
-
 end
