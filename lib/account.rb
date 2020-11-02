@@ -46,8 +46,9 @@ class Account
   end
 
   def print_bank_statement
-    deposits = @transactions[:deposits].map{ |deposit| format_transaction(deposit)}
-    withdrawals = @transactions[:withdrawals].map {|withdrawal| format_transaction(withdrawal)}
-    STATEMENT_HEADER  + deposits.join
+    # deposits = @transactions[:deposits].map{ |deposit| format_transaction(deposit)}
+    # withdrawals = @transactions[:withdrawals].map {|withdrawal| format_transaction(withdrawal)}
+    statement = arrange_transaction_by_date.map { |transaction| format_transaction(transaction) }.join
+    STATEMENT_HEADER  + statement.strip
   end
 end
