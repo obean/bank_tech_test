@@ -80,14 +80,14 @@ describe Account do
       time = Time.local(2008, 9, 1, 10, 5, 0)
       Timecop.travel(time)
       account.deposit(1)
-      expect(account.format_transaction(account.transactions[:deposits][0], "deposits")).to eq "01/09/2008 || 1 || || 1\n"
+      expect(account.format_transaction(account.transactions[:deposits][0])).to eq "01/09/2008 || 1 || || 1\n"
     end
 
     it 'returns a formatted withdrawal from the transactions hash' do
       time = Time.local(2008, 9, 1, 10, 5, 0)
       Timecop.travel(time)
       account.withdraw(1)
-      expect(account.format_transaction(account.transactions[:withdrawals][0], "withdrawals")).to eq "01/09/2008 || || 1 || -1\n"
+      expect(account.format_transaction(account.transactions[:withdrawals][0])).to eq "01/09/2008 || || 1 || -1\n"
     end
   end
 

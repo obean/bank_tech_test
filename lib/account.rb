@@ -35,18 +35,18 @@ class Account
     end 
   end
 
-  def format_transaction(transaction, deposit_type)
-  deposit_type === "deposits" ? "#{transaction[0]} || #{transaction[1]} || || #{transaction[3]}\n" : "#{transaction[0]} || || #{transaction[2]} || #{transaction[3]}\n"
+  def format_transaction(transaction)
+    transaction[2].nil? ? "#{transaction[0]} || #{transaction[1]} || || #{transaction[3]}\n" : "#{transaction[0]} || || #{transaction[2]} || #{transaction[3]}\n"
   end
 
   def arrange_transaction_by_date
-  all_transactions = @transactions[:withdrawals] + @transactions[:deposits]
-  all_transactions.sort { |a,b| Date.parse(a[0]) <=> Date.parse(b[0])}
+    all_transactions = @transactions[:withdrawals] + @transactions[:deposits]
+    all_transactions.sort { |a,b| Date.parse(a[0]) <=> Date.parse(b[0])}
   end
 
   def print_bank_statement
-    deposits = @transactions[:deposits].map{ |deposit| format_transaction(deposit, "deposits")}
-    withdrawals = @transactions[:withdrawals].map {|withdrawal| format_transaction(withdrawal, "withdrawal")}
+    deposits = @transactions[:deposits].map{ |deposit| format_transaction(deposit)}
+    withdrawals = @transactions[:withdrawals].map {|withdrawal| format_transaction(withdrawal)}
     STATEMENT_HEADER  + deposits.join
   end
 end
