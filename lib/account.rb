@@ -30,7 +30,7 @@ class Account
   end
 
   def format_transaction(transaction, deposit_type)
-  deposit_type == "deposit" ? "#{transaction[0]} || #{transaction[1]} || || #{transaction[2]}\n" : "#{transaction[0]} || || #{transaction[1]} || #{transaction[2]}\n"
+  deposit_type == "deposits" ? "#{transaction[0]} || #{transaction[1]} || || #{transaction[2]}\n" : "#{transaction[0]} || || #{transaction[1]} || #{transaction[2]}\n"
   end
   
 
