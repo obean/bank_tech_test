@@ -32,6 +32,8 @@ class Account
   
 
   def print_bank_statement
-     STATEMENT_HEADER
+    deposits = @transactions[:deposits].each {|deposit| deposit.map {|entry| entry.to_s}}
+    deposits.each {|deposit| deposit[1] = "#{deposit[1]} ||"}
+    STATEMENT_HEADER + "\n" + deposits.join(' || ')
   end
 end
