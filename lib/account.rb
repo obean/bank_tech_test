@@ -47,6 +47,6 @@ class Account
     deposits = @transactions[:deposits].map{ |deposit| format_transaction(deposit, "deposits")}
     withdrawals = @transactions[:withdrawals].map {|withdrawal| format_transaction(withdrawal, "withdrawal")}
 
-    STATEMENT_HEADER  + deposits.join(" || ")
+    STATEMENT_HEADER  + deposits.join
   end
 end

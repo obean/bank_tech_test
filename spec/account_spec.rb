@@ -109,12 +109,12 @@ describe Account do
       expect(account.print_bank_statement).to eq "date || credit || debit || balance\n01/09/2008 || 500 || || 500\n"
     end
 
-  #   it 'prints out multiple transactions of the same type' do
-  #     time = Time.local(2008, 9, 1, 10, 5, 0)
-  #     Timecop.travel(time)
-  #     account.deposit(500)
-  #     account.deposit(1000)
-  #     expect(account.print_bank_statement).to eq "date || credit || debit || balance\n01/09/2008 || 500 || || 500\n01/09/2008 || 1000 || || 1500"
-  #   end
+    it 'prints out multiple transactions of the same type' do
+      time = Time.local(2008, 9, 1, 10, 5, 0)
+      Timecop.travel(time)
+      account.deposit(500)
+      account.deposit(1000)
+      expect(account.print_bank_statement).to eq "date || credit || debit || balance\n01/09/2008 || 500 || || 500\n01/09/2008 || 1000 || || 1500\n"
+    end
    end
 end
