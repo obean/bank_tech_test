@@ -91,6 +91,12 @@ describe Account do
     end
   end
 
+  describe '#arrange_transaction_by_date' do
+    it 'returns transactions chronologically from bottom to top' do
+
+    end
+  end
+
   describe 'print_bank_statement' do
     it 'prints out the header when there are no transactions' do
     expect(account.print_bank_statement).to eq "date || credit || debit || balance\n"
@@ -100,7 +106,7 @@ describe Account do
       time = Time.local(2008, 9, 1, 10, 5, 0)
       Timecop.travel(time)
       account.deposit(500)
-      expect(account.print_bank_statement).to eq "date || credit || debit || balance\n01/09/2008 || 500 || || 500"
+      expect(account.print_bank_statement).to eq "date || credit || debit || balance\n01/09/2008 || 500 || || 500\n"
     end
 
   #   it 'prints out multiple transactions of the same type' do
