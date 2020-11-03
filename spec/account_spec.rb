@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # rubocop:disable all
-require './spec/spec_methods'
 require 'timecop'
 require 'account'
 describe Account do
@@ -52,7 +51,7 @@ describe Account do
 
   describe 'formatted_date' do
     it 'returns the date in the correct format' do
-      set_time(2008, 9, 1)
+      Timecop.travel(2008, 9, 1)
       expect(account.formatted_date).to eq '01/09/2008'
     end
   end
