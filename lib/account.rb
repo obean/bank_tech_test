@@ -26,12 +26,14 @@ class Account
     Time.now.strftime('%d/%m/%Y')
   end
 
-  def process_transaction(transaction_type, value, object_class)
+  def process_transaction(transaction_type, value, type)
     case transaction_type
     when :withdrawals
-      @transactions[transaction_type].push(object_class.new(formatted_date, nil, format('%.2f', value), format('%.2f', @balance)))
+      transaction = type.new(formatted_date, nil, format('%.2f', value), format('%.2f', @balance))
+      @transactions[transaction_type].push(transaction)
     when :deposits
-      @transactions[transaction_type].push(object_class.new(formatted_date, format('%.2f', value), nil, format('%.2f', @balance)))
+      transaction = type.new(formatted_date, format('%.2f', value), nil, format('%.2f', @balance))
+      @transactions[transaction_type].push(transaction)
     end
   end
 
