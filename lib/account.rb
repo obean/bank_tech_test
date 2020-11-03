@@ -35,9 +35,7 @@ class Account
     end
   end
 
-  def format_transaction(transaction)
-    transaction[2].nil? ? "#{transaction[0]} || #{transaction[1]} || || #{transaction[3]}\n" : "#{transaction[0]} || || #{transaction[2]} || #{transaction[3]}\n"
-  end
+
 
   def arrange_transaction_by_date
     @transactions.values
@@ -45,8 +43,5 @@ class Account
                  .sort { |a, b| Date.parse(b[0]) <=> Date.parse(a[0]) }
   end
 
-  def print_bank_statement
-    statement = arrange_transaction_by_date.map { |transaction| format_transaction(transaction) }.join
-    Statement::STATEMENT_HEADER + statement.strip
-  end
+
 end
