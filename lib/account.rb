@@ -12,26 +12,26 @@ class Account
     @transactions = { withdrawals: [], deposits: [] }
   end
 
-  def deposit(deposit_amount)
+  def deposit(deposit_amount, object_class = Transaction)
     @balance += deposit_amount
-    process_transaction(:deposits, deposit_amount)
+    process_transaction(:deposits, deposit_amount, object_class)
   end
 
-  def withdraw(withdrawal_amount)
+  def withdraw(withdrawal_amount, object_class = Transaction)
     @balance -= withdrawal_amount
-    process_transaction(:withdrawals, withdrawal_amount)
+    process_transaction(:withdrawals, withdrawal_amount, object_class)
   end
 
   def formatted_date
     Time.now.strftime('%d/%m/%Y')
   end
 
-  def process_transaction(transaction_type, value)
+  def process_transaction(transaction_type, value, object_class)
     case transaction_type
     when :withdrawals
-      @transactions[transaction_type].push(Transaction.new(formatted_date, nil, format('%.2f', value), format('%.2f', @balance)))
+      @transactions[transaction_type].push(object_class.new(formatted_date, nil, format('%.2f', value), format('%.2f', @balance)))
     when :deposits
-      @transactions[transaction_type].push(Transaction.new(formatted_date, format('%.2f', value), nil, format('%.2f', @balance)))
+      @transactions[transaction_type].push(object_class.new(formatted_date, format('%.2f', value), nil, format('%.2f', @balance)))
     end
   end
 

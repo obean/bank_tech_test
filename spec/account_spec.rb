@@ -59,8 +59,10 @@ describe Account do
 
   describe 'process_transaction' do
     it 'adds a deposit transaction object to the transactions hash' do
-      set_time(2008, 9, 1)
-      account.deposit(500)
+      transaction_instance_double = double :transaction, date: '01/09/2008', deposit_amount: '500.00', withdrawal_amount: nil, balance: '500.00'
+      transaction_class_double = double :transaction_class, new: transaction_instance_double
+      # set_time(2008, 9, 1)
+      account.deposit(500, transaction_class_double)
       expect(account.transactions[:deposits].first.date).to eq '01/09/2008'
       expect(account.transactions[:deposits].first.deposit_amount).to eq '500.00'
       expect(account.transactions[:deposits].first.withdrawal_amount).to eq nil
