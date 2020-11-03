@@ -9,7 +9,7 @@ class Statement
 
   def print_bank_statement(account_transactions)
     statement = account_transactions.map { |transaction| format_transaction(transaction) }.join
-    Statement::STATEMENT_HEADER + statement.strip
+    STATEMENT_HEADER + statement.strip
   end
 
 end

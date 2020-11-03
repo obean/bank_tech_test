@@ -98,13 +98,18 @@ describe Account do
 
   describe 'statement' do 
     it 'calls an instance of Statement' do
-    statement_double = double :statement
-    statement_class_double = double :statement_class, new: statement_double
-    expect(statement_class_double).to receive(:new)
-    account.statement(statement_class_double)
+      statement_double = double :statement, format_transaction: "formatted", print_bank_statement: "formatted statement"
+      statement_class_double = double :statement_class, new: statement_double
+      expect(statement_class_double).to receive(:new)
+      account.statement(statement_class_double)
     end
 
-    
+    it 'calls the statement.print_bank_statement method' do
+      statement_double = double :statement, print_bank_statement: "formatted statement"
+      statement_class_double = double :statement_class, new: statement_double
+      expect(statement_double).to receive(:print_bank_statement)
+      account.statement(statement_class_double)
+    end
 
   end
   
