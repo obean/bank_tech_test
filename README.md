@@ -16,6 +16,11 @@ $ irb -r './lib/account.rb'
 ```bash
 rspec
 ```
+### Test Linting
+- from root file run:
+```bash
+ $ rubocop
+ ```
 
 ## Specification
 
@@ -60,7 +65,8 @@ I would like my statements to show transactions newest first
 ## Technologies
 - Program is written in Ruby
 - Test suite is written using Rspec
-  - Mocking of Time for testing used 'Timecop' gem
+  - Mocking of Time for testing used 'Timecop' Gem
+- Rubocop Gem is used for linting of program file, it has been disabled for spec files as the spec helper had errors and some expected outputs were long enough to be considered offences
 
 ## Approach
 - The way data was stored was key to how this code would be formatted
@@ -71,9 +77,6 @@ I would like my statements to show transactions newest first
 ### Input/Output
 - Data input can be either float or integer format. 
 - As no math operations were required after storage, and output included text. All output is in string format. 
-
-
-
 
 ### Limitations of Approach
 - if transactions are backdated, balance on each transaction would be incorrect. 
