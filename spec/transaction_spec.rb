@@ -1,3 +1,4 @@
+ # rubocop:disable all
 require 'transaction'
 
 describe Transaction do
@@ -9,3 +10,4 @@ describe Transaction do
     expect(transaction.balance).to eq 1
   end 
   end
+# rubocop:enable all

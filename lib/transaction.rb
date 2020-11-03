@@ -10,4 +10,4 @@ class Transaction
     @withdrawal_amount = withdrawal_amount
     @balance = balance
   end
-end 
+end

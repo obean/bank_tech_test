@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-
+# Statement class to return formatted bank statement
 class Statement
   STATEMENT_HEADER = "date || credit || debit || balance\n"
 
