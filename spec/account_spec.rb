@@ -87,8 +87,8 @@ describe Account do
       set_time(2001, 9, 1)
       account.deposit(5)
       expect(account.arrange_transaction_by_date.first.date).to eq '01/09/2009'
-      expect(account.arrange_transaction_by_date.first.date).to eq '01/09/2008'
-      expect(account.arrange_transaction_by_date.first.date).to eq '01/09/2001'
+      expect(account.arrange_transaction_by_date[1].date).to eq '01/09/2008'
+      expect(account.arrange_transaction_by_date.last.date).to eq '01/09/2001'
     end
 
     it 'returns transactions with decimals in the correct format' do
