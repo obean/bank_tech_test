@@ -1,11 +1,11 @@
 # frozen_string_literal: true
-require './spec/spec_methods.rb'
+
+# rubocop:disable LineLength, BlockLength
+require './spec/spec_methods'
 require 'timecop'
 require 'account'
 describe Account do
   let(:account) { Account.new }
-
-
 
   it 'initializes with a balance of 0' do
     expect(account.balance).to eq 0
@@ -51,15 +51,14 @@ describe Account do
   describe 'formatted_date' do
     it 'returns the date in the correct format' do
       set_time(2008, 9, 1, 10, 5, 0)
-      
+
       expect(account.formatted_date).to eq '01/09/2008'
     end
   end
 
   describe 'process_transaction' do
     it 'adds a deposit to the transactions hash' do
-     set_time(2008, 9, 1, 10, 5, 0)
-      
+      set_time(2008, 9, 1, 10, 5, 0)
       account.deposit(500)
       expect(account.transactions[:deposits]).to eq [['01/09/2008', '500.00', nil, '500.00']]
     end
@@ -68,11 +67,10 @@ describe Account do
       set_time(2008, 9, 1, 10, 5, 0)
       account.withdraw(1)
       account.withdraw(5)
-      expect(account.transactions[:withdrawals]).to eq [['01/09/2008', nil, '1.00', '-1.00'], ['01/09/2008', nil, '5.00', '-6.00']]
+      output = [['01/09/2008', nil, '1.00', '-1.00'], ['01/09/2008', nil, '5.00', '-6.00']]
+      expect(account.transactions[:withdrawals]).to eq output
     end
   end
-
-
 
   describe '#arrange_transaction_by_date' do
     it 'returns transactions newest first' do
@@ -82,35 +80,36 @@ describe Account do
       account.withdraw(5)
       set_time(2001, 9, 1, 10, 5, 0)
       account.deposit(5)
-      expect(account.arrange_transaction_by_date).to eq([['01/09/2009', nil, '5.00', '5.00'], ['01/09/2008', '10.00', nil, '10.00'], ['01/09/2001', '5.00', nil, '10.00']])
+      output = [['01/09/2009', nil, '5.00', '5.00'], ['01/09/2008', '10.00', nil, '10.00'], ['01/09/2001', '5.00', nil, '10.00']]
+      expect(account.arrange_transaction_by_date).to eq(output)
     end
 
-    it 'returns transactions with decimals in the correct format' do 
-    set_time(2012, 1, 10, 10, 5, 0)
-    account.deposit(1000.5)
-    set_time(2012, 1, 13, 10, 5, 0)
-    account.deposit(2000)
-    set_time(2012, 1, 14, 10, 5, 0)
-    account.withdraw(500.41)
-    expect(account.arrange_transaction_by_date).to eq([["14/01/2012", nil, "500.41", "2500.09"], ["13/01/2012", "2000.00", nil, "3000.50"], ["10/01/2012", "1000.50", nil, "1000.50"]])
+    it 'returns transactions with decimals in the correct format' do
+      set_time(2012, 1, 10, 10, 5, 0)
+      account.deposit(1000.5)
+      set_time(2012, 1, 13, 10, 5, 0)
+      account.deposit(2000)
+      set_time(2012, 1, 14, 10, 5, 0)
+      account.withdraw(500.41)
+      output = [['14/01/2012', nil, '500.41', '2500.09'], ['13/01/2012', '2000.00', nil, '3000.50'], ['10/01/2012', '1000.50', nil, '1000.50']]
+      expect(account.arrange_transaction_by_date).to eq(output)
     end
   end
 
-  describe 'statement' do 
+  describe 'statement' do
     it 'calls an instance of Statement' do
-      statement_double = double :statement, format_transaction: "formatted", print_bank_statement: "formatted statement"
+      statement_double = double :statement, format_transaction: 'formatted', print_bank_statement: 'formatted statement'
       statement_class_double = double :statement_class, new: statement_double
       expect(statement_class_double).to receive(:new)
       account.statement(statement_class_double)
     end
 
     it 'calls the statement.print_bank_statement method' do
-      statement_double = double :statement, print_bank_statement: "formatted statement"
+      statement_double = double :statement, print_bank_statement: 'formatted statement'
       statement_class_double = double :statement_class, new: statement_double
       expect(statement_double).to receive(:print_bank_statement)
       account.statement(statement_class_double)
     end
-
   end
-  
 end
+# rubocop:enable

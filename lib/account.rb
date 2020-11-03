@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
 require 'date'
-require_relative './statement.rb'
+require_relative './statement'
 # account class to complete bank tech test
 class Account
   attr_reader :balance, :transactions
-
- 
 
   def initialize
     @balance = 0
@@ -28,14 +26,13 @@ class Account
   end
 
   def process_transaction(transaction_type, value)
-    if transaction_type == :withdrawals
-      @transactions[transaction_type].push([formatted_date, nil, '%.2f' % value, format('%.2f', @balance)])
-    elsif transaction_type == :deposits
-      @transactions[transaction_type].push([formatted_date, '%.2f' % value, nil, format('%.2f', @balance)])
+    case transaction_type
+    when :withdrawals
+      @transactions[transaction_type].push([formatted_date, nil, format('%.2f', value), format('%.2f', @balance)])
+    when :deposits
+      @transactions[transaction_type].push([formatted_date, format('%.2f', value), nil, format('%.2f', @balance)])
     end
   end
-
-
 
   def arrange_transaction_by_date
     @transactions.values
@@ -44,9 +41,7 @@ class Account
   end
 
   def statement(statement = Statement)
-   current_statement = statement.new
-   current_statement.print_bank_statement(arrange_transaction_by_date)
+    current_statement = statement.new
+    current_statement.print_bank_statement(arrange_transaction_by_date)
   end
-
-
 end
