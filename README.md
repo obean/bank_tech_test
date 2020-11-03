@@ -6,7 +6,7 @@
 ```bash
 $ bundle
 ```
-- run \in irb
+- run in irb
 ```bash
 $ irb -r './lib/account.rb'
 ```
@@ -29,7 +29,7 @@ rspec
 * You should be able to interact with your code via a REPL like IRB or the JavaScript console.  (You don't need to implement a command line interface that takes input from STDIN.)
 * Deposits, withdrawal.
 * Account statement (date, amount, balance) printing.
-* Data can be kept \ memory (it doesn't need to be stored to a database or anything).
+* Data can be kept in memory (it doesn't need to be stored to a database or anything).
 
 ### User Stories
 ```bash
@@ -80,4 +80,10 @@ I would like my statements to show transactions newest first
 
 ### Limitations of Approach
 - if transactions are backdated, balance on each transaction would be incorrect. 
-  - This could be fixed by iterating through past transactions and updating the balance from here, however, this has not been done as it was not specified as required.
+  - This could be fixed with the following:
+    - Pass both transaction methods a default argument of Account.formatted_date, enabling the user to add a date if they wish
+    - Iterate through all transactions which occur after this one, adding or subtracting the new value to the balance according to transaction type
+      - The balance instance variable would not be affected after the backdated transaction as the current methods would leave final balance would still be correct. However, it could not be used to calculate each transactions balance.
+        This must be done using the value within the transaction.
+
+  

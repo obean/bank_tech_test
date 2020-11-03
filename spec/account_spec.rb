@@ -6,6 +6,8 @@ require 'timecop'
 require 'account'
 describe Account do
   let(:account) { Account.new }
+  
+
 
   it 'initializes with a balance of 0' do
     expect(account.balance).to eq 0
@@ -51,48 +53,64 @@ describe Account do
   describe 'formatted_date' do
     it 'returns the date in the correct format' do
       set_time(2008, 9, 1)
-
       expect(account.formatted_date).to eq '01/09/2008'
     end
   end
 
   describe 'process_transaction' do
-    it 'adds a deposit to the transactions hash' do
-      set_time(2008, 9, 1)
-      account.deposit(500)
-      expect(account.transactions[:deposits]).to eq [['01/09/2008', '500.00', nil, '500.00']]
+    it 'adds a deposit transaction object to the transactions hash' do
+      transaction_instance_double = double :transaction, date: '01/09/2008', deposit_amount: '500.00', withdrawal_amount: nil, balance: '500.00'
+      transaction_class_double = double :transaction_class, new: transaction_instance_double
+      account.deposit(500, transaction_class_double)
+      expect(account.transactions[:deposits].first.date).to eq '01/09/2008'
+      expect(account.transactions[:deposits].first.deposit_amount).to eq '500.00'
+      expect(account.transactions[:deposits].first.withdrawal_amount).to eq nil
+      expect(account.transactions[:deposits].first.balance).to eq '500.00'
     end
 
     it 'adds a withdrawal to the transactions hash' do
-      set_time(2008, 9, 1)
-      account.withdraw(1)
-      account.withdraw(5)
-      output = [['01/09/2008', nil, '1.00', '-1.00'], ['01/09/2008', nil, '5.00', '-6.00']]
-      expect(account.transactions[:withdrawals]).to eq output
+      transaction_instance_double = double :transaction, date: '01/09/2008', deposit_amount: nil, withdrawal_amount: '500.00', balance: '-500.00'
+      transaction_class_double = double :transaction_class, new: transaction_instance_double
+      account.withdraw(1, transaction_class_double)
+      expect(account.transactions[:withdrawals].first.date).to eq '01/09/2008'
+      expect(account.transactions[:withdrawals].first.deposit_amount).to eq nil
+      expect(account.transactions[:withdrawals].first.withdrawal_amount).to eq '500.00'
+      expect(account.transactions[:withdrawals].first.balance).to eq '-500.00'
     end
   end
 
   describe '#arrange_transaction_by_date' do
     it 'returns transactions newest first' do
-      set_time(2008, 9, 1)
-      account.deposit(10)
-      set_time(2009, 9, 1)
-      account.withdraw(5)
-      set_time(2001, 9, 1)
-      account.deposit(5)
-      output = [['01/09/2009', nil, '5.00', '5.00'], ['01/09/2008', '10.00', nil, '10.00'], ['01/09/2001', '5.00', nil, '10.00']]
-      expect(account.arrange_transaction_by_date).to eq(output)
+      transaction_instance_double = double :transaction, date: '01/09/2001'
+      transaction_class_double = double :transaction_class, new: transaction_instance_double
+      account.deposit(10, transaction_class_double)
+
+      transaction_instance_double = double :transaction, date: '01/09/2009'
+      transaction_class_double = double :transaction_class, new: transaction_instance_double
+      account.withdraw(5, transaction_class_double)
+
+      transaction_instance_double = double :transaction, date: '01/09/2008'
+      transaction_class_double = double :transaction_class, new: transaction_instance_double
+      account.deposit(5, transaction_class_double)
+
+      expect(account.arrange_transaction_by_date.first.date).to eq '01/09/2009'
+      expect(account.arrange_transaction_by_date[1].date).to eq '01/09/2008'
+      expect(account.arrange_transaction_by_date.last.date).to eq '01/09/2001'
     end
 
-    it 'returns transactions with decimals in the correct format' do
-      set_time(2012, 1, 10)
-      account.deposit(1000.5)
-      set_time(2012, 1, 13)
-      account.deposit(2000)
-      set_time(2012, 1, 14)
-      account.withdraw(500.41)
-      output = [['14/01/2012', nil, '500.41', '2500.09'], ['13/01/2012', '2000.00', nil, '3000.50'], ['10/01/2012', '1000.50', nil, '1000.50']]
-      expect(account.arrange_transaction_by_date).to eq(output)
+    it 'returns transactions which only differ by days in the correct order' do
+      transaction_instance_double = double :transaction, date: '10/01/2012', deposit_amount: '1000.50', withdrawal_amount: nil, balance: '1000.50'
+      transaction_class_double = double :transaction_class, new: transaction_instance_double
+      account.deposit(1000.5, transaction_class_double)
+      transaction_instance_double = double :transaction, date: '13/01/2012', deposit_amount: '2000.00', withdrawal_amount: nil, balance: '3000.50'
+      transaction_class_double = double :transaction_class, new: transaction_instance_double
+      account.deposit(2000, transaction_class_double)
+      transaction_instance_double = double :transaction, date: '14/01/2012', deposit_amount: nil, withdrawal_amount: '500.41', balance: '2500.09'
+      transaction_class_double = double :transaction_class, new: transaction_instance_double
+      account.withdraw(500.41, transaction_class_double)
+      expect(account.arrange_transaction_by_date.first.withdrawal_amount).to eq '500.41'
+      expect(account.arrange_transaction_by_date[1].deposit_amount).to eq '2000.00'
+      expect(account.arrange_transaction_by_date.last.deposit_amount).to eq '1000.50'
     end
   end
 
