@@ -6,6 +6,8 @@ require 'timecop'
 require 'account'
 describe Account do
   let(:account) { Account.new }
+  
+
 
   it 'initializes with a balance of 0' do
     expect(account.balance).to eq 0
@@ -51,7 +53,6 @@ describe Account do
   describe 'formatted_date' do
     it 'returns the date in the correct format' do
       set_time(2008, 9, 1)
-
       expect(account.formatted_date).to eq '01/09/2008'
     end
   end

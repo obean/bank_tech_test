@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'date'
+require_relative './transaction'
 require_relative './statement'
 # account class to complete bank tech test
 class Account

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# account class to complete bank tech test
+
 class Statement
   STATEMENT_HEADER = "date || credit || debit || balance\n"
 
