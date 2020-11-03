@@ -1,3 +1,0 @@
-AllCops:
-  Exclude:
-    - './spec/account_spec.rb'
