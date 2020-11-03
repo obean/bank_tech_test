@@ -73,6 +73,7 @@ I would like my statements to show transactions newest first
   - I considered an array to store previous transactions, this would have allowed for the easiest method to display transactions in date order
 - I elected for a hash to have a clearer distinction between each type of transaction, I think this makes it more readable when lots of transactions are stored.
 - Whilst originally written in one class, I considered the formatting of the statement to be distinct enough from the processing of transactions to warrant a separate class. 
+- I later extracted transactions to be their own class as well as transaction details were less clear in the code when stored in an array
 
 ### Input/Output
 - Data input can be either float or integer format. 
