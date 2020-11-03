@@ -22,7 +22,7 @@ describe Statement do
 
   describe 'print_bank_statement' do
     it 'prints out the header when there are no transactions' do
-      expect(statement.print_bank_statement()).to eq "date || credit || debit || balance\n"
+      expect(statement.print_bank_statement([])).to eq "date || credit || debit || balance\n"
     end
 
     # it 'prints out the header with a single transaction' do
