@@ -61,7 +61,6 @@ describe Account do
     it 'adds a deposit transaction object to the transactions hash' do
       transaction_instance_double = double :transaction, date: '01/09/2008', deposit_amount: '500.00', withdrawal_amount: nil, balance: '500.00'
       transaction_class_double = double :transaction_class, new: transaction_instance_double
-      # set_time(2008, 9, 1)
       account.deposit(500, transaction_class_double)
       expect(account.transactions[:deposits].first.date).to eq '01/09/2008'
       expect(account.transactions[:deposits].first.deposit_amount).to eq '500.00'
@@ -70,13 +69,13 @@ describe Account do
     end
 
     it 'adds a withdrawal to the transactions hash' do
-      set_time(2008, 9, 1)
-      account.withdraw(1)
-      # output = [['01/09/2008', nil, '1.00', '-1.00'], ['01/09/2008', nil, '5.00', '-6.00']]
+      transaction_instance_double = double :transaction, date: '01/09/2008', deposit_amount: nil, withdrawal_amount: '500.00', balance: '-500.00'
+      transaction_class_double = double :transaction_class, new: transaction_instance_double
+      account.withdraw(1, transaction_class_double)
       expect(account.transactions[:withdrawals].first.date).to eq '01/09/2008'
       expect(account.transactions[:withdrawals].first.deposit_amount).to eq nil
-      expect(account.transactions[:withdrawals].first.withdrawal_amount).to eq '1.00'
-      expect(account.transactions[:withdrawals].first.balance).to eq '-1.00'
+      expect(account.transactions[:withdrawals].first.withdrawal_amount).to eq '500.00'
+      expect(account.transactions[:withdrawals].first.balance).to eq '-500.00'
     end
   end
 
