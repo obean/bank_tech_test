@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop:disable LineLength
+# rubocop:disable all
 require 'statement'
 
 describe Statement do
@@ -44,4 +44,4 @@ describe Statement do
     end
   end
 end
-# rubocop:enable
+# rubocop:enable all
