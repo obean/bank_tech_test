@@ -84,25 +84,30 @@ describe Account do
       transaction_instance_double = double :transaction, date: '01/09/2001'
       transaction_class_double = double :transaction_class, new: transaction_instance_double
       account.deposit(10, transaction_class_double)
+
       transaction_instance_double = double :transaction, date: '01/09/2009'
       transaction_class_double = double :transaction_class, new: transaction_instance_double
       account.withdraw(5, transaction_class_double)
+
       transaction_instance_double = double :transaction, date: '01/09/2008'
       transaction_class_double = double :transaction_class, new: transaction_instance_double
       account.deposit(5, transaction_class_double)
+
       expect(account.arrange_transaction_by_date.first.date).to eq '01/09/2009'
       expect(account.arrange_transaction_by_date[1].date).to eq '01/09/2008'
       expect(account.arrange_transaction_by_date.last.date).to eq '01/09/2001'
     end
 
-    it 'returns transactions with decimals in the correct format' do
-      set_time(2012, 1, 10)
-      account.deposit(1000.5)
-      set_time(2012, 1, 13)
-      account.deposit(2000)
-      set_time(2012, 1, 14)
-      account.withdraw(500.41)
-      output = [['14/01/2012', nil, '500.41', '2500.09'], ['13/01/2012', '2000.00', nil, '3000.50'], ['10/01/2012', '1000.50', nil, '1000.50']]
+    it 'returns transactions which only differ by days in the correct order' do
+      transaction_instance_double = double :transaction, date: '10/01/2012', deposit_amount: '1000.50', withdrawal_amount: nil, balance: '1000.50'
+      transaction_class_double = double :transaction_class, new: transaction_instance_double
+      account.deposit(1000.5, transaction_class_double)
+      transaction_instance_double = double :transaction, date: '13/01/2012', deposit_amount: '2000.00', withdrawal_amount: nil, balance: '3000.50'
+      transaction_class_double = double :transaction_class, new: transaction_instance_double
+      account.deposit(2000, transaction_class_double)
+      transaction_instance_double = double :transaction, date: '14/01/2012', deposit_amount: nil, withdrawal_amount: '500.41', balance: '2500.09'
+      transaction_class_double = double :transaction_class, new: transaction_instance_double
+      account.withdraw(500.41, transaction_class_double)
       expect(account.arrange_transaction_by_date.first.withdrawal_amount).to eq '500.41'
       expect(account.arrange_transaction_by_date[1].deposit_amount).to eq '2000.00'
       expect(account.arrange_transaction_by_date.last.deposit_amount).to eq '1000.50'
