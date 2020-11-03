@@ -29,12 +29,9 @@ describe Statement do
       expect(statement.print_bank_statement([["01/09/2008", "500.00", nil, "500.00"]])).to eq "date || credit || debit || balance\n01/09/2008 || 500.00 || || 500.00"
     end
 
-    # it 'prints out multiple transactions of the same type' do
-    #   set_time(2008, 9, 1, 10, 5, 0)
-    #   account.deposit(500)
-    #   account.deposit(1000)
-    #   expect(account.print_bank_statement).to eq "date || credit || debit || balance\n01/09/2008 || 500.00 || || 500.00\n01/09/2008 || 1000.00 || || 1500.00"
-    # end
+    it 'prints out multiple transactions of the same type' do
+      expect(statement.print_bank_statement([["01/09/2008", "500.00", nil, "500.00"], ["01/09/2008", "1000.00", nil, "1500.00"]] )).to eq "date || credit || debit || balance\n01/09/2008 || 500.00 || || 500.00\n01/09/2008 || 1000.00 || || 1500.00"
+    end
 
     # it 'prints our multiple transactions of different types' do
     #   set_time(2012, 1, 10, 10, 5, 0)
