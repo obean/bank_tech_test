@@ -5,9 +5,9 @@ class Statement
   STATEMENT_HEADER = "date || credit || debit || balance\n"
 
   def format_transaction(transaction)
-    deposit_format = "#{transaction[0]} || #{transaction[1]} || || #{transaction[3]}\n"
-    withdrawal_format = "#{transaction[0]} || || #{transaction[2]} || #{transaction[3]}\n"
-    transaction[2].nil? ? deposit_format : withdrawal_format
+    deposit_format = "#{transaction.date} || #{transaction.deposit_amount} || || #{transaction.balance}\n"
+    withdrawal_format = "#{transaction.date} || || #{transaction.withdrawal_amount} || #{transaction.balance}\n"
+    transaction.withdrawal_amount.nil? ? deposit_format : withdrawal_format
   end
 
   def print_bank_statement(account_transactions)

@@ -12,11 +12,13 @@ describe Statement do
 
   describe '#format_transaction' do
     it 'returns a formatted deposit' do
-      expect(statement.format_transaction(['01/09/2008', '1.00', nil, '1.00'])).to eq "01/09/2008 || 1.00 || || 1.00\n"
+      transaction_double = double :transaction, date: '01/09/2008', deposit_amount: '1.00', withdrawal_amount: nil, balance: '1.00'
+      expect(statement.format_transaction(transaction_double)).to eq "01/09/2008 || 1.00 || || 1.00\n"
     end
 
     it 'returns a formatted withdrawal from the transactions hash' do
-      expect(statement.format_transaction(['01/09/2008', nil, '1.00', '-1.00'])).to eq "01/09/2008 || || 1.00 || -1.00\n"
+      transaction_double = double :transaction, date: '01/09/2008', deposit_amount: nil, withdrawal_amount: '1.00', balance: '-1.00'
+      expect(statement.format_transaction(transaction_double)).to eq "01/09/2008 || || 1.00 || -1.00\n"
     end
   end
 
