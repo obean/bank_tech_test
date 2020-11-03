@@ -38,14 +38,9 @@ describe Statement do
       expect(statement.print_bank_statement(output)).to eq "date || credit || debit || balance\n14/01/2012 || || 500.00 || 2500.00\n13/01/2012 || 2000.00 || || 3000.00\n10/01/2012 || 1000.00 || || 1000.00"
     end
 
-    # it 'works with decimals' do
-    #   set_time(2012, 1, 10, 10, 5, 0)
-    #   account.deposit(1000.5)
-    #   set_time(2012, 1, 13, 10, 5, 0)
-    #   account.deposit(2000)
-    #   set_time(2012, 1, 14, 10, 5, 0)
-    #   account.withdraw(500.41)
-    #   expect(account.print_bank_statement).to eq "date || credit || debit || balance\n14/01/2012 || || 500.41 || 2500.09\n13/01/2012 || 2000.00 || || 3000.50\n10/01/2012 || 1000.50 || || 1000.50"
-    # end
+    it 'works with decimals' do
+      output = [["14/01/2012", nil, "500.41", "2500.09"], ["13/01/2012", "2000.00", nil, "3000.50"], ["10/01/2012", "1000.50", nil, "1000.50"]]
+      expect(statement.print_bank_statement(output)).to eq "date || credit || debit || balance\n14/01/2012 || || 500.41 || 2500.09\n13/01/2012 || 2000.00 || || 3000.50\n10/01/2012 || 1000.50 || || 1000.50"
+    end
   end
 end

@@ -24,7 +24,7 @@ describe Account do
       expect(account.transactions[:deposits]).to eq []
     end
   end
-  
+
   describe '#deposit' do
     it 'takes one parameter' do
       expect(account).to respond_to(:deposit).with(1).arguments
@@ -84,6 +84,16 @@ describe Account do
       account.deposit(5)
       expect(account.arrange_transaction_by_date).to eq([['01/09/2009', nil, '5.00', '5.00'], ['01/09/2008', '10.00', nil, '10.00'], ['01/09/2001', '5.00', nil, '10.00']])
     end
+
+
+    # added example for transactions by date to check it carries over decimals
+    # set_time(2012, 1, 10, 10, 5, 0)
+    # account.deposit(1000.5)
+    # set_time(2012, 1, 13, 10, 5, 0)
+    # account.deposit(2000)
+    # set_time(2012, 1, 14, 10, 5, 0)
+    # account.withdraw(500.41)
+
   end
 
   
