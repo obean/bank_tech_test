@@ -81,12 +81,15 @@ describe Account do
 
   describe '#arrange_transaction_by_date' do
     it 'returns transactions newest first' do
-      set_time(2008, 9, 1)
-      account.deposit(10)
-      set_time(2009, 9, 1)
-      account.withdraw(5)
-      set_time(2001, 9, 1)
-      account.deposit(5)
+      transaction_instance_double = double :transaction, date: '01/09/2001'
+      transaction_class_double = double :transaction_class, new: transaction_instance_double
+      account.deposit(10, transaction_class_double)
+      transaction_instance_double = double :transaction, date: '01/09/2009'
+      transaction_class_double = double :transaction_class, new: transaction_instance_double
+      account.withdraw(5, transaction_class_double)
+      transaction_instance_double = double :transaction, date: '01/09/2008'
+      transaction_class_double = double :transaction_class, new: transaction_instance_double
+      account.deposit(5, transaction_class_double)
       expect(account.arrange_transaction_by_date.first.date).to eq '01/09/2009'
       expect(account.arrange_transaction_by_date[1].date).to eq '01/09/2008'
       expect(account.arrange_transaction_by_date.last.date).to eq '01/09/2001'
