@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'date'
-
+require_relative './statement.rb'
 # account class to complete bank tech test
 class Account
   attr_reader :balance, :transactions
@@ -41,6 +41,10 @@ class Account
     @transactions.values
                  .flatten(1)
                  .sort { |a, b| Date.parse(b[0]) <=> Date.parse(a[0]) }
+  end
+
+  def statement(statement = Statement)
+    statement.new
   end
 
 

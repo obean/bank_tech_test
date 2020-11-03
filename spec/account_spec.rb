@@ -85,16 +85,27 @@ describe Account do
       expect(account.arrange_transaction_by_date).to eq([['01/09/2009', nil, '5.00', '5.00'], ['01/09/2008', '10.00', nil, '10.00'], ['01/09/2001', '5.00', nil, '10.00']])
     end
 
-
-    # added example for transactions by date to check it carries over decimals
-    # set_time(2012, 1, 10, 10, 5, 0)
-    # account.deposit(1000.5)
-    # set_time(2012, 1, 13, 10, 5, 0)
-    # account.deposit(2000)
-    # set_time(2012, 1, 14, 10, 5, 0)
-    # account.withdraw(500.41)
-
+    it 'returns transactions with decimals in the correct format' do 
+    set_time(2012, 1, 10, 10, 5, 0)
+    account.deposit(1000.5)
+    set_time(2012, 1, 13, 10, 5, 0)
+    account.deposit(2000)
+    set_time(2012, 1, 14, 10, 5, 0)
+    account.withdraw(500.41)
+    expect(account.arrange_transaction_by_date).to eq([["14/01/2012", nil, "500.41", "2500.09"], ["13/01/2012", "2000.00", nil, "3000.50"], ["10/01/2012", "1000.50", nil, "1000.50"]])
+    end
   end
 
+  describe 'statement' do 
+    it 'calls an instance of Statement' do
+    statement_double = double :statement
+    statement_class_double = double :statement_class, new: statement_double
+    expect(statement_class_double).to receive(:new)
+    account.statement(statement_class_double)
+    end
+
+    
+
+  end
   
 end
