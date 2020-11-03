@@ -58,18 +58,23 @@ describe Account do
   end
 
   describe 'process_transaction' do
-    it 'adds a deposit to the transactions hash' do
+    it 'adds a deposit transaction object to the transactions hash' do
       set_time(2008, 9, 1)
       account.deposit(500)
-      expect(account.transactions[:deposits]).to eq [['01/09/2008', '500.00', nil, '500.00']]
+      expect(account.transactions[:deposits].first.date).to eq '01/09/2008'
+      expect(account.transactions[:deposits].first.deposit_amount).to eq '500.00'
+      expect(account.transactions[:deposits].first.withdrawal_amount).to eq nil
+      expect(account.transactions[:deposits].first.balance).to eq '500.00'
     end
 
     it 'adds a withdrawal to the transactions hash' do
       set_time(2008, 9, 1)
       account.withdraw(1)
-      account.withdraw(5)
-      output = [['01/09/2008', nil, '1.00', '-1.00'], ['01/09/2008', nil, '5.00', '-6.00']]
-      expect(account.transactions[:withdrawals]).to eq output
+      # output = [['01/09/2008', nil, '1.00', '-1.00'], ['01/09/2008', nil, '5.00', '-6.00']]
+      expect(account.transactions[:withdrawals].first.date).to eq '01/09/2008'
+      expect(account.transactions[:withdrawals].first.deposit_amount).to eq nil
+      expect(account.transactions[:withdrawals].first.withdrawal_amount).to eq '1.00'
+      expect(account.transactions[:withdrawals].first.balance).to eq '-1.00'
     end
   end
 
@@ -81,8 +86,9 @@ describe Account do
       account.withdraw(5)
       set_time(2001, 9, 1)
       account.deposit(5)
-      output = [['01/09/2009', nil, '5.00', '5.00'], ['01/09/2008', '10.00', nil, '10.00'], ['01/09/2001', '5.00', nil, '10.00']]
-      expect(account.arrange_transaction_by_date).to eq(output)
+      expect(account.arrange_transaction_by_date.first.date).to eq '01/09/2009'
+      expect(account.arrange_transaction_by_date.first.date).to eq '01/09/2008'
+      expect(account.arrange_transaction_by_date.first.date).to eq '01/09/2001'
     end
 
     it 'returns transactions with decimals in the correct format' do
@@ -93,7 +99,9 @@ describe Account do
       set_time(2012, 1, 14)
       account.withdraw(500.41)
       output = [['14/01/2012', nil, '500.41', '2500.09'], ['13/01/2012', '2000.00', nil, '3000.50'], ['10/01/2012', '1000.50', nil, '1000.50']]
-      expect(account.arrange_transaction_by_date).to eq(output)
+      expect(account.arrange_transaction_by_date.first.withdrawal_amount).to eq '500.41'
+      expect(account.arrange_transaction_by_date[1].deposit_amount).to eq '2000.00'
+      expect(account.arrange_transaction_by_date.last.deposit_amount).to eq '1000.50'
     end
   end
 
