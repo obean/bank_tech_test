@@ -42,6 +42,6 @@ class Account
 
   def statement(statement = Statement)
     current_statement = statement.new
-    current_statement.print_bank_statement(arrange_transaction_by_date)
+    puts current_statement.print_bank_statement(arrange_transaction_by_date)
   end
 end

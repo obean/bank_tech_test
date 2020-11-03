@@ -110,6 +110,12 @@ describe Account do
       expect(statement_double).to receive(:print_bank_statement)
       account.statement(statement_class_double)
     end
+    it 'prints the statement to the console' do
+      statement_double = double :statement, print_bank_statement: 'formatted statement'
+      statement_class_double = double :statement_class, new: statement_double
+      expect(STDOUT).to receive(:puts).with("formatted statement")
+      account.statement(statement_class_double)
+    end
   end
 end
 # rubocop:enable
