@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 require 'date'
-
+require 'statement'
 # account class to complete bank tech test
 class Account
   attr_reader :balance, :transactions
 
-  STATEMENT_HEADER = "date || credit || debit || balance\n"
+ 
 
   def initialize
     @balance = 0
@@ -46,9 +46,7 @@ class Account
   end
 
   def print_bank_statement
-    # deposits = @transactions[:deposits].map{ |deposit| format_transaction(deposit)}
-    # withdrawals = @transactions[:withdrawals].map {|withdrawal| format_transaction(withdrawal)}
     statement = arrange_transaction_by_date.map { |transaction| format_transaction(transaction) }.join
-    STATEMENT_HEADER + statement.strip
+    Statement::STATEMENT_HEADER + statement.strip
   end
 end

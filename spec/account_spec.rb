@@ -5,9 +5,7 @@ require 'account'
 describe Account do
   let(:account) { Account.new }
 
-  it 'has a statement header constant' do
-    expect(Account::STATEMENT_HEADER).to eq "date || credit || debit || balance\n"
-  end
+
 
   it 'initializes with a balance of 0' do
     expect(account.balance).to eq 0
@@ -74,20 +72,7 @@ describe Account do
     end
   end
 
-  describe '#format_transaction' do
-    it 'returns a formatted deposit from the transactions hash' do
-      set_time(2008, 9, 1, 10, 5, 0)
-      account.deposit(1)
-      expect(account.format_transaction(account.transactions[:deposits][0])).to eq "01/09/2008 || 1.00 || || 1.00\n"
-    end
 
-    it 'returns a formatted withdrawal from the transactions hash' do
-      set_time(2008, 9, 1, 10, 5, 0)
-
-      account.withdraw(1)
-      expect(account.format_transaction(account.transactions[:withdrawals][0])).to eq "01/09/2008 || || 1.00 || -1.00\n"
-    end
-  end
 
   describe '#arrange_transaction_by_date' do
     it 'returns transactions newest first' do
