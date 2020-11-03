@@ -1,4 +1,4 @@
-## Specification
+
 
 ### Run the program
 - clone this repo
@@ -17,7 +17,7 @@ $ irb -r './lib/account.rb'
 rspec
 ```
 
-
+## Specification
 
 ### Requirements
 
@@ -57,7 +57,24 @@ So my statment is easier to read
 I would like my statements to show transactions newest first
 ```
 
+## Technologies
+- Program is written in Ruby
+- Test suite is written using Rspec
+  - Mocking of Time for testing used 'Timecop' gem
+
 ## Approach
-- I originally considered using an Array, with sub arrays, to store information of transactions, this was because I considered that it would be easier to display a statement \ chronological order if all entries were added to the array \ order of occurence
-- I eventually elected for a hash, I considered this to be more scaleable if there was ever an intention to provide more reporting on withdrawals or deposits individually.
-  - I was going to use the dates as keys \ the key-value pairs for my hash, however, this would be confusing when handling multiple transactions on the same day. I did not want to use the time of day either, the keys would be too long and the time was not specified as required on statements so would be unnecessary information
+- The way data was stored was key to how this code would be formatted
+  - I considered an array to store previous transactions, this would have allowed for the easiest method to display transactions in date order
+- I elected for a hash to have a clearer distinction between each type of transaction, I think this makes it more readable when lots of transactions are stored.
+- Whilst originally written in one class, I considered the formatting of the statement to be distinct enough from the processing of transactions to warrant a separate class. 
+
+### Input/Output
+- Data input can be either float or integer format. 
+- As no math operations were required after storage, and output included text. All output is in string format. 
+
+
+
+
+### Limitations of Approach
+- if transactions are backdated, balance on each transaction would be incorrect. 
+  - This could be fixed by iterating through past transactions and updating the balance from here, however, this has not been done as it was not specified as required.
