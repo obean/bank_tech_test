@@ -29,9 +29,9 @@ class Account
   def process_transaction(transaction_type, value)
     case transaction_type
     when :withdrawals
-      @transactions[transaction_type].push([formatted_date, nil, format('%.2f', value), format('%.2f', @balance)])
+      @transactions[transaction_type].push(Transaction.new(formatted_date, nil, format('%.2f', value), format('%.2f', @balance)))
     when :deposits
-      @transactions[transaction_type].push([formatted_date, format('%.2f', value), nil, format('%.2f', @balance)])
+      @transactions[transaction_type].push(Transaction.new(formatted_date, format('%.2f', value), nil, format('%.2f', @balance)))
     end
   end
 
