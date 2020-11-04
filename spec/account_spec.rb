@@ -27,7 +27,7 @@ describe Account do
   end
 
   describe '#deposit' do
-    it 'takes one parameter' do
+    it 'takes needs one parameter' do
       expect(account).to respond_to(:deposit).with(1).arguments
     end
 

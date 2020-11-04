@@ -17,7 +17,7 @@ class Account
     process_transaction(:deposits, deposit_amount, object_class)
   end
 
-  def withdraw(withdrawal_amount, object_class = Transaction)
+  def withdraw(withdrawal_amount, object_class=Transaction)
     @balance -= withdrawal_amount
     process_transaction(:withdrawals, withdrawal_amount, object_class)
   end
